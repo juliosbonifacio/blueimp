@@ -1,0 +1,12 @@
+blueimp_settings:
+  trigger: ''
+  navigation:
+    hidePageScrollbars: true
+    carousel: false
+    startSlideshow: false
+    continuous: true
+    slideshowInterval: 5000
+    transitionSpeed: 400
+  visibility:
+    visibility: 1
+    pages: ''

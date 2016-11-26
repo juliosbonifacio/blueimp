@@ -1,0 +1,40 @@
+{
+  "name": "drupal/blueimp",
+  "description": "Loads images on Blueimp Carousel.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "keywords": ["php", "blueimp", "gallery"],
+  "homepage": "https://www.drupal.org/project/blueimp",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Julio Bonifacio",
+      "email": "juliosbonifacio@gmail.com"
+    },
+    {
+      "name": "Sebastian Tschan"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "blueimp/gallery",
+        "version": "dev-master",
+        "type": "drupal-library",
+        "source": {
+          "url": "https://github.com/blueimp/Gallery.git",
+          "type": "git",
+          "reference": "origin/master"
+        },
+        "require": {
+          "composer/installers": "~1.0"
+        }
+      }
+    }
+  ],
+  "require": {
+    "blueimp/gallery": "dev-master"
+  },
+  "prefer-stable": true
+}

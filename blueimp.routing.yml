@@ -1,0 +1,14 @@
+blueimp.settings:
+  path: /admin/config/user-interface/blueimp
+  defaults:
+    _title: 'Blueimp Gallery'
+    _form: \Drupal\blueimp\Form\BlueimpSettings
+  requirements:
+    _permission: 'administer site configuration'
+
+blueimp.blockGallery:
+  path: '/blueimp/block'
+  defaults:
+    _controller: '\Drupal\blueimp\Controller\GalleryController::blockGeneral'
+  requirements:
+    _access: 'TRUE'

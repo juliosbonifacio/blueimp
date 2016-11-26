@@ -1,0 +1,26 @@
+<div class="galeritopia">
+  <ul class="fotosinner">
+    {% for key, value in data %}
+      {% if ((key + 1) % 8) == 0 %}
+        <li id="blockfotos{{ loop.index == 1 ? loop.index : loop.index-7 }}" class="blockfotos">
+      {% endif %}
+
+        <div class="col-sm-3 {{ loop.index }}">
+          {% if value.url_youtube == null %}
+            <a data-gallery="#blueimp-gallery" href="{{ value.image.cover }}">
+              <img alt="" src="{{ value.image.large }}" />
+            </a>
+          {% else %}
+            <a data-gallery="#blueimp-video-carousel" data-poster="{{ value.image.cover }}" data-youtube="{{ value.key_youtube }}" href="{{ value.url_youtube }}" title="Video" type="text/html">
+              <img alt="" src="{{ value.image.large }}" />
+            </a>
+          {% endif %}
+        </div>
+
+      {% if (loop.index0 > 0  and loop.index % 8) == 0 %}
+        </li>
+      {% endif %}
+    {% endfor %}
+
+  </ul>
+</div>
