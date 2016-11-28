@@ -1,4 +1,5 @@
 blueimp_settings:
+  style: 'default'
   trigger: ''
   navigation:
     hidePageScrollbars: true

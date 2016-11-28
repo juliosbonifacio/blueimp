@@ -42,6 +42,6 @@ main:
     js/blueimp.js: {}
   css:
     theme:
-      js/blueimp.js: {}
+      css/blueimp.css: {}
   dependencies:
     - core/jquery

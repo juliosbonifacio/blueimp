@@ -5,6 +5,7 @@ namespace Drupal\blueimp\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\image\Entity;
 use Drupal\image\Entity\ImageStyle;
+use Drupal\blueimp;
 
 /**
  * Provides a 'Gallery Node' Block
@@ -22,23 +23,27 @@ class GalleryNodeBlock extends BlockBase {
     $data = NULL;
     // Load the current node.
     $node = \Drupal::routeMatch()->getParameter('node');
-    if( $node && $node->get('field_blueimp_gallery') !== null ) {
-      $datos = $node->get('field_blueimp_gallery');
+    if( $node && isset($node->field_blueimp_gallery)) {
+      $blueimp_gallery = $node->get('field_blueimp_gallery');
       $data = array();
 
-      foreach ($datos as $key => $value) {
+      foreach ($blueimp_gallery as $key => $value) {
         $image_uri = $value->entity->getFileUri();
-        $data[$key]['image'] = $this->getImageStyles($image_uri);
+        $data[$key]['image'] = getImageStyles($image_uri);
         $data[$key]['url_youtube']= NULL;
         $data[$key]['key_youtube'] = NULL;
 
-        if(isset($value->field_url_video2) && isset($value->field_url_video2['und'])) {
-            $link  = $value['field_url_video2']['und'][0]['value'];
+        if( isset($value->field_video_url) &&
+          ($video_url = $value->get('field_video_url')->getValue()) &&
+          isset($video_url[0]['uri']) && !empty($video_url[0]['uri']) ) {
+            $link  = $video_url[0]['uri'];
             $data[$key]['url_youtube']= $link;
 
-            $video_id = explode("?v=", $link); // For videos like http://www.youtube.com/watch?v=...
+            // For videos like http://www.youtube.com/watch?v=...
+            $video_id = explode("?v=", $link);
             if (empty($video_id[1])){
-                $video_id = explode("/v/", $link); // For videos like http://www.youtube.com/watch/v/..
+                // For videos like http://www.youtube.com/watch/v/..
+                $video_id = explode("/v/", $link);
             }
             $video_id = explode("&", $video_id[1]); // Deleting any other params
             $video_id = $video_id[0];
@@ -52,31 +57,11 @@ class GalleryNodeBlock extends BlockBase {
       return array(
         '#data' => $data,
         '#theme' => 'block_gallery',
-        '#attached' => array(
-          'library' =>  array(
-            'blueimp/gallery'
-          ),
-        ),
       );
     }
     return array(
       '#type' => 'markup',
-      '#markup' => $this->t('Empty Block Node...!'),
+      '#markup' => $this->t('.'),
       );
-  }
-
-  protected function getImageStyles($uri) {
-    $images = array();
-
-    if (!empty($uri)) {
-      $image_cover = ImageStyle::load('blueimp_gallery')->buildUrl($uri);
-      $image = ImageStyle::load('large')->buildUrl($uri);
-      $images = array(
-        'cover' => $image_cover,
-        'large' => $image
-      );
-      return $images;
-    }
-    return NULL;
   }
 }
